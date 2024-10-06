@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive World Map with Zoom</title>
+    <!-- Leaflet.js CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        body {
+            body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1520034475321-cbe63696469a?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTd8fHxlbnwwfHx8fHw%3D'); /* Replace with the correct path to your image */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    
+}
+
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin-left: 430px;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: relative;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            background-image: url("https://img.pikbest.com/wp/202343/nasa-stunning-space-background-texture-elements-captured-by-in-high-quality-photograph_9988933.jpg!w700wp");
+        }
+
+        #map {
+            width: 1000px;
+            height: 500px;
+            margin: 20px 0;
+            justify-content: center;
+            align-items: center;
+            margin-left:200px;
+        }
+
+        .video-display {
+            margin: 20px auto;
+            justify-content: center;
+            width:70%;
+            align-items: center;
+            margin-left:200px;
+        }
+
+        .button-link {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color:#383a3b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button-link:hover {
+            background: color #333;;
+        }
+        
+    </style>
+</head>
+<body>
+<div class="main-pg">
+<header>
+    <h1>LunaTECH: Tell Us A Climate Story</h1>
+    <img src="/Users/pallavidurga/Downloads/WhatsApp Image 2024-10-05 at 14.54.12.jpeg" alt="Logo" class="logo">
+</header>
+
+<div class="container">
+    <!-- Video display section -->
+    <div class="video-display">
+        <h2 style="color:white;">Visual Demonstration</h2>
+        <video controls width="1000">
+            <source src="/Users/pallavidurga/Downloads/WhatsApp Video 2024-10-06 at 11.12.45.mp4" type="video/mp4" style="margin-bottom: 500px;">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <h2 style="color:white;">
+        Interactive World Map
+    </h2>
+    <!-- Interactive World Map with Leaflet -->
+    <div id="map">
+        <h2 style="color:white;">
+            Interactive World Map
+        </h2>
+    </div>
+
+    <!-- Button for external links -->
+    <button id="country-link" class="button-link"></button>
+</div>
+
+<footer>
+    <p>&copy; 2024 LunaTECH. All rights reserved.</p>
+</footer>
+</div>
+<!-- Leaflet.js Script and Custom Map Script -->
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([20, 0], 2); // Center at (lat: 20, lng: 0) with zoom level 2
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+    }).addTo(map);
+
+    // Add country markers with click event
+    var countries = {
+        "USA": { "coords": [37.0902, -95.7129], "link": "https://worldpopulationreview.com/countries/united-states" },
+        "India": { "coords": [20.5937, 78.9629], "link": "file:///Users/pallavidurga/Desktop/country%203/page.html" },
+        "Japan": { "coords": [36.2048, 138.2529], "link": "https://worldpopulationreview.com/countries/japan" }
+    };
+
+    for (var country in countries) {
+        var marker = L.marker(countries[country].coords).addTo(map)
+            .bindPopup(country)
+            .on('click', function(e) {
+                var selectedCountry = e.target.getPopup().getContent();
+                var countryInfo = countries[selectedCountry];
+                
+                // Display the button with the link
+                var linkButton = document.getElementById('country-link');
+                linkButton.style.display = 'block';
+                linkButton.innerHTML = "Learn more about " + selectedCountry;
+                linkButton.onclick = function() {
+                    window.open(countryInfo.link, '_blank');
+                };
+            });
+    }
+</script>
+
+</body>
+</html>
